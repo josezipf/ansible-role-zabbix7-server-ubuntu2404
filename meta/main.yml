@@ -1,0 +1,18 @@
+galaxy_info:
+  author: josezipf
+  description: "Instala e configura o Zabbix Server no Ubuntu 24.04 com suporte ao MySQL 8"
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble
+  galaxy_tags:
+    - zabbix
+    - mysql
+    - ubuntu
+    - monitoring
+    - network
+    - server
+
+dependencies: []

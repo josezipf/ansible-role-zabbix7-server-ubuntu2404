@@ -1,0 +1,11 @@
+---
+# Playbook de teste para validar a role 'zabbix7_server_ubuntu2404'
+# Esse playbook pode ser executado localmente ou em ambientes de CI/CD (como Molecule ou GitHub Actions)
+
+- name: Teste da role zabbix7_server_ubuntu2404
+  hosts: localhost              # Pode ser alterado para um container ou VM no futuro
+  become: true                  # Necessário para tarefas com privilégios elevados
+  gather_facts: true            # Importante para detectar o sistema e garantir compatibilidade da role
+
+  roles:
+    - role: zabbix7_server_ubuntu2404

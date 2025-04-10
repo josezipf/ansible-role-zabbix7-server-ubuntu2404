@@ -1,0 +1,9 @@
+---
+# Handler responsável por reiniciar o serviço do Zabbix Server.
+# Este handler será chamado automaticamente sempre que houver uma mudança
+# em uma tarefa que tenha o 'notify: Restart Zabbix Server'.
+- name: Restart Zabbix Server
+  ansible.builtin.service:
+    name: zabbix-server     # Nome do serviço a ser reiniciado
+    state: restarted        # Ação de reinício do serviço (stop + start)
+  become: true              # Necessário para gerenciar serviços do sistema (root)

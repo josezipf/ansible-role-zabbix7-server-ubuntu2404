@@ -1,0 +1,31 @@
+---
+# Tarefa responsável por instalar o pacote principal do Zabbix Server no sistema.
+# Utiliza o módulo 'apt' da coleção 'ansible.builtin' para garantir que o pacote esteja presente.
+- name: Instalar pacotes do Zabbix Server
+  ansible.builtin.apt:
+    name:
+      - zabbix-server-mysql   # Nome do pacote do Zabbix Server que utiliza o MySQL como backend
+    state: present            # Garante que o pacote esteja instalado (sem forçar atualização como o 'latest')
+    update_cache: true        # Atualiza o cache do apt antes da instalação (boa prática para garantir que o pacote seja encontrado)
+  become: true                # Executa a tarefa com privilégio de root
+  notify: Restart Zabbix Server  # Notifica o handler para reiniciar o serviço após instalação
+
+# Tarefa para configurar o arquivo principal do Zabbix Server.
+# O template será gerado a partir do arquivo Jinja2 fornecido no diretório 'templates'.
+- name: Configurar arquivo do Zabbix Server
+  ansible.builtin.template:
+    src: zabbix_server.conf.j2     # Arquivo de template fonte (.j2) com variáveis substituíveis
+    dest: /etc/zabbix/zabbix_server.conf  # Caminho do arquivo de configuração final no destino
+    owner: zabbix                  # Define o usuário proprietário do arquivo
+    group: zabbix                  # Define o grupo proprietário
+    mode: '0640'                   # Permissões seguras para leitura e escrita do proprietário, leitura do grupo
+  become: true                     # Executa com privilégios de root para poder escrever no diretório do sistema
+  notify: Restart Zabbix Server    # Notifica o handler para reiniciar o serviço se o arquivo for alterado
+
+# Tarefa para habilitar o serviço do Zabbix Server no boot e garantir que ele esteja em execução.
+- name: Habilitar e iniciar serviço Zabbix Server
+  ansible.builtin.service:
+    name: zabbix-server           # Nome do serviço a ser gerenciado
+    state: started                # Garante que o serviço esteja em execução
+    enabled: true                 # Garante que o serviço será iniciado automaticamente no boot do sistema
+  become: true                    # Requer privilégios administrativos para gerenciar serviços
