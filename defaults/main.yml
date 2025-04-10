@@ -1,5 +1,5 @@
 ---
 mysql_database: zabbix
 mysql_zabbix_user: zabbix
-mysql_zabbix_password: SenhaZabbix
+mysql_zabbix_password: SenhaZabbix123
 # defaults file for zabbix_server_ubuntu
